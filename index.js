@@ -24,7 +24,16 @@ app.use(bp.urlencoded({ extended: false }));
 app.use(bp.json());
 
 app.use(cors());
-
+app.use(
+  cors({
+    origin: [
+      "https://qeazy-1c76.onrender.com",
+      "https://qeazy-1c76.onrender.com/",
+    ], // React app URL
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // Allowed methods
+    credentials: true, // Allow
+  })
+);
 app.use("/split_pdfs", express.static(path.join(__dirname, "split_pdfs")));
 const fl = async (file, d, q, c) => {
   const { runMCQ } = await import("./AI_service/Ai_image_servicem.mjs");
