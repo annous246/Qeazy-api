@@ -1,0 +1,33 @@
+{
+  "name": "express_app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "anas",
+  "license": "ISC",
+  "dependencies": {
+    "@azure-rest/ai-inference": "^1.0.0-beta.6",
+    "@azure/core-auth": "^1.9.0",
+    "@langchain/community": "^0.3.55",
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "http": "^0.0.1-security",
+    "jsonwebtoken": "^9.0.2",
+    "langchain": "^0.3.33",
+    "multer": "^2.0.1",
+    "nodemon": "^3.1.9",
+    "path": "^0.12.7",
+    "pdf-parse": "^1.1.1",
+    "pg": "^8.13.3",
+    "socket-io": "^1.0.0",
+    "socket.io": "^4.8.1"
+  }
+}
