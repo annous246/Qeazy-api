@@ -22,7 +22,7 @@ server.listen(process.env.PORT, () =>
 
 app.use(
   cors({
-    origin: "https://qeazy-1c76.onrender.com",
+    origin: ["https://qeazy-1c76.onrender.com", "http://localhost:5173"],
     // React app URL
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // Allowed methods
   })

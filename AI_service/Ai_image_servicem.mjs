@@ -86,9 +86,18 @@ export async function runMCQ(files, d, q, c) {
                     answer1: { type: "string", description: "Answer 1" },
                     answer2: { type: "string", description: "Answer 2" },
                     answer3: { type: "string", description: "Answer 3" },
+                    answer4: {
+                      type: "string",
+                      description: "Answer 4 (IF DEMANDED)",
+                    },
+                    answer5: {
+                      type: "string",
+                      description: "Answer 5 (IF DEMANDED)",
+                    },
                     correct: {
                       type: "number",
-                      description: "Number of the correct answer (1, 2, or 3)",
+                      description:
+                        "Number of the correct answer (1, 2, 3,4 or 5 depending on the number of answers)",
                     },
                   },
 
@@ -137,6 +146,7 @@ export async function runMCQ(files, d, q, c) {
     if (choice.finish_reason === "stop") {
       const mcq = JSON.parse(choice.message.tool_calls[0].function.arguments);
       //  console.log(JSON.stringify(mcq, null, 2));
+      console.log("mcq generated");
       return mcq;
     } else {
       throw new Error("MCQ generation failed");
