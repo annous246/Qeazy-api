@@ -42,6 +42,7 @@ const fl = async (file, d, q, c) => {
 };
 app.post("/api/upload", upload.array("pdf"), async (req, res) => {
   const filePaths = [];
+  if (!req.files || !req.files.length) return res.json(null);
   for (const file of req.files) {
     console.log(file);
     await filePaths.push(file.destination + file.filename);
