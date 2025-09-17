@@ -14,9 +14,17 @@ const token = process.env["GITHUB_TOKEN"];
 const endpoint = "https://models.github.ai/inference";
 const model = "openai/gpt-4.1";
 
+function totalL(array) {
+  let l = 0;
+  for (const chunk of array) {
+    l += chunk.length;
+  }
+  return l;
+}
 export async function runMCQ(files, d, q, c) {
   console.log(c);
   console.log(d);
+  console.log(q);
   try {
     if (!token) {
       throw new Error("API token is not set in environment variables.");
@@ -28,21 +36,34 @@ export async function runMCQ(files, d, q, c) {
     for (const file of files) {
       const loader = new PDFLoader(file);
       const docs = await loader.load();
-      const fullText = docs.map((d) => d.pageContent).join("\n");
-
+      var totalPageslength = 0;
+      var totalPages = 0;
+      const fullText = docs
+        .map((d) => {
+          totalPageslength += d.pageContent.length;
+          if (totalPageslength <= 24000) totalPages++;
+          return d.pageContent;
+        })
+        .join("\n");
+      console.log(totalPages);
+      const MAX_CHARS = 24000;
+      console.log(typeof fullText);
+      const extracted = fullText.substr(0, 24000 + totalPages);
+      console.log(extracted.length);
       // Split into chunks
       const splitter = new RecursiveCharacterTextSplitter({
         separators: ["\n", " ", "."],
         chunkSize: 500,
-        chunkOverlap: 50,
+        chunkOverlap: 0,
       });
-      const chunks = await splitter.splitText(fullText);
+      const chunks = await splitter.splitText(extracted);
+
       console.log(chunks.length);
       console.log("chunks.length");
       total_chunks.push(...chunks);
     }
-
     console.log(`Total chunks: ${total_chunks.length}`);
+    console.log(totalL(total_chunks));
     // Messages
     const messages = [
       {
@@ -147,7 +168,7 @@ export async function runMCQ(files, d, q, c) {
       const mcq = JSON.parse(choice.message.tool_calls[0].function.arguments);
       //  console.log(JSON.stringify(mcq, null, 2));
       console.log("mcq generated");
-      return mcq;
+      return { mcq: mcq, total: totalPages };
     } else {
       throw new Error("MCQ generation failed");
     }

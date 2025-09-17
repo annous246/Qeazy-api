@@ -46,8 +46,13 @@ app.post("/api/upload", upload.array("pdf"), async (req, res) => {
   const diff = await req.body.difficulty;
   const questions = await JSON.parse(req.body.questions);
   const choices = await JSON.parse(req.body.choices);
-  const ress = await fl(filePaths, diff, questions, choices);
+  const { mcq: ress, total: total } = await fl(
+    filePaths,
+    diff,
+    questions,
+    choices
+  );
   console.log("ress");
   console.log(ress);
-  res.json(ress);
+  res.json({ ress: ress, total: total });
 });
