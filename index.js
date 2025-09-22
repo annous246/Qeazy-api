@@ -11,6 +11,8 @@ const rateLimit = require("express-rate-limit");
 require("dotenv").config();
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
+
+const { spawn } = require("child_process");
 const signupLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 5,
@@ -19,7 +21,6 @@ const signupLimiter = rateLimit({
 server.listen(process.env.PORT, () =>
   console.log(`listening on port ${process.env.PORT}`)
 );
-
 app.use(
   cors({
     origin: ["https://qeazy-1c76.onrender.com", "http://localhost:5173"],
@@ -27,6 +28,7 @@ app.use(
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // Allowed methods
   })
 );
+
 app.use(bp.urlencoded({ extended: false }));
 app.use(bp.json());
 
@@ -36,6 +38,21 @@ const fl = async (file, d, q, c) => {
   const res = await runMCQ(file, d, q, c);
   return res;
 };
+async function test() {
+  const pythonProcess = spawn("python", ["AI_summarize.py", textInput]);
+
+  let output = "";
+  pythonProcess.stdout.on("data", (data) => {
+    output += data.toString();
+  });
+
+  pythonProcess.stderr.on("data", (data) => {
+    console.error("Python error:", data.toString());
+  });
+}
+app.get("/", (req, res) => {
+  res.json({ message: "listening" });
+});
 app.post("/api/upload", upload.array("pdf"), async (req, res) => {
   const filePaths = [];
   if (!req.files || !req.files.length) return res.json(null);
