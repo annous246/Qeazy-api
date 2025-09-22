@@ -12,9 +12,6 @@ dist
 dist-ssr
 *.local
 
-AI_service/AI_summarzier/venv/
-*.pyc
-__pycache__/
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

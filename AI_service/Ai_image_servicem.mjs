@@ -45,18 +45,16 @@ export async function runMCQ(files, d, q, c) {
           if (totalPageslength <= 24000) totalPages++;
           return d.pageContent;
         })
-        .join("\n");
+        .join(" ");
       console.log(totalPages);
       const MAX_CHARS = 24000;
       console.log(typeof fullText);
       //* extraction with summarization
       const summerizedText = await summerizeAI(fullText, MAX_CHARS);
-      for (let text of summerizedText) {
-        console.log(text.length + " ,");
-      }
-      console.log("************");
+      console.log("summary");
+      console.log(summerizedText);
       //************************** */
-      const extracted = fullText.substr(0, 24000 + totalPages);
+      const extracted = summerizedText.substr(0, 24000 + totalPages);
       console.log(extracted.length);
       // Split into chunks
       const splitter = new RecursiveCharacterTextSplitter({

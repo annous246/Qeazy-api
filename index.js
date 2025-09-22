@@ -12,7 +12,6 @@ require("dotenv").config();
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 
-const { spawn } = require("child_process");
 const signupLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 5,
@@ -38,18 +37,6 @@ const fl = async (file, d, q, c) => {
   const res = await runMCQ(file, d, q, c);
   return res;
 };
-async function test() {
-  const pythonProcess = spawn("python", ["AI_summarize.py", textInput]);
-
-  let output = "";
-  pythonProcess.stdout.on("data", (data) => {
-    output += data.toString();
-  });
-
-  pythonProcess.stderr.on("data", (data) => {
-    console.error("Python error:", data.toString());
-  });
-}
 app.get("/", (req, res) => {
   res.json({ message: "listening" });
 });
@@ -63,6 +50,12 @@ app.post("/api/upload", upload.array("pdf"), async (req, res) => {
   const diff = await req.body.difficulty;
   const questions = await JSON.parse(req.body.questions);
   const choices = await JSON.parse(req.body.choices);
+  // const { mcq: ress, total: total } = await fl(
+  //   filePaths,
+  //   diff,
+  //   questions,
+  //   choices
+  // );
   const { mcq: ress, total: total } = await fl(
     filePaths,
     diff,
