@@ -21,13 +21,14 @@ const __dirname = path.dirname(__filename);
 async function run_py(textInput) {
   return new Promise((resolve, reject) => {
     const psScript = path.join(__dirname, "run_venv.ps1");
-    console.log(psScript);
-    const pythonProcess = spawn(
-      "powershell.exe",
-      ["-ExecutionPolicy", "Bypass", "-File", psScript],
-      { shell: true }
-    );
-
+    // console.log(psScript);
+    // const pythonProcess = spawn(
+    //   "powershell.exe",
+    //   ["-ExecutionPolicy", "Bypass", "-File", psScript],
+    //   { shell: true }
+    //);
+    const bashScript = path.join(__dirname, "run_venv.sh");
+    const pythonProcess = spawn("bash", [bashScript], { shell: true });
     let output = "";
     let errorOutput = "";
 
