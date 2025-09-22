@@ -8,6 +8,7 @@ import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+import { summerizeAI } from "./Ai_summerization.mjs";
 
 // Load environment variables
 const token = process.env["GITHUB_TOKEN"];
@@ -48,6 +49,13 @@ export async function runMCQ(files, d, q, c) {
       console.log(totalPages);
       const MAX_CHARS = 24000;
       console.log(typeof fullText);
+      //* extraction with summarization
+      const summerizedText = await summerizeAI(fullText, MAX_CHARS);
+      for (let text of summerizedText) {
+        console.log(text.length + " ,");
+      }
+      console.log("************");
+      //************************** */
       const extracted = fullText.substr(0, 24000 + totalPages);
       console.log(extracted.length);
       // Split into chunks
@@ -61,6 +69,9 @@ export async function runMCQ(files, d, q, c) {
       console.log(chunks.length);
       console.log("chunks.length");
       total_chunks.push(...chunks);
+    }
+    for (const v in total_chunks) {
+      console.log(total_chunks[v].length + " ,");
     }
     console.log(`Total chunks: ${total_chunks.length}`);
     console.log(totalL(total_chunks));
@@ -118,7 +129,7 @@ export async function runMCQ(files, d, q, c) {
                     correct: {
                       type: "number",
                       description:
-                        "Number of the correct answer (1, 2, 3,4 or 5 depending on the number of answers)",
+                        "Number of the correct answer (1, 2, 3, 4 or 5 depending on the number of answers)",
                     },
                   },
 
