@@ -33,9 +33,9 @@ export async function categorize(text, len) {
       throw new Error(`Flask server returned ${response.status}`);
     }
 
-    const data = (await response.json())["categories"];
+    const data = await response.json();
     // Expecting { summary: "..." } from Flask
-    return data;
+    return data["categories"];
   } catch (err) {
     console.error("Error in summerizeAI:", err.message);
     return null;

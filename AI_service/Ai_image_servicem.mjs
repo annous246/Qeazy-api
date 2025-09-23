@@ -58,6 +58,8 @@ export async function runMCQ(files, d, q, c) {
       //************************** */
       const extracted = summerizedText.substr(0, 24000 + totalPages);
       categories = await categorize(extracted);
+      console.log("categories");
+      console.log(categories);
       // Split into chunks
       const splitter = new RecursiveCharacterTextSplitter({
         separators: ["\n", " ", "."],
