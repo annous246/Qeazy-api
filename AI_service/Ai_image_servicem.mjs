@@ -9,6 +9,7 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { summerizeAI } from "./Ai_summerization.mjs";
+import { categorize } from "./Ai_categorizing.mjs";
 
 // Load environment variables
 const token = process.env["GITHUB_TOKEN"];
@@ -23,6 +24,7 @@ function totalL(array) {
   return l;
 }
 export async function runMCQ(files, d, q, c) {
+  let categories = [];
   console.log(c);
   console.log(d);
   console.log(q);
@@ -55,7 +57,7 @@ export async function runMCQ(files, d, q, c) {
       console.log(summerizedText);
       //************************** */
       const extracted = summerizedText.substr(0, 24000 + totalPages);
-      console.log(extracted.length);
+      categories = await categorize(extracted);
       // Split into chunks
       const splitter = new RecursiveCharacterTextSplitter({
         separators: ["\n", " ", "."],
@@ -177,7 +179,7 @@ export async function runMCQ(files, d, q, c) {
       const mcq = JSON.parse(choice.message.tool_calls[0].function.arguments);
       //  console.log(JSON.stringify(mcq, null, 2));
       console.log("mcq generated");
-      return { mcq: mcq, total: totalPages };
+      return { mcq: mcq, total: totalPages, categories: categories };
     } else {
       throw new Error("MCQ generation failed");
     }

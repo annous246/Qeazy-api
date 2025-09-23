@@ -16,10 +16,10 @@ const token = process.env["GITHUB_TOKEN"];
 const endpoint = "https://models.github.ai/inference";
 const model = "openai/gpt-4.1";
 
-export async function summerizeAI(text, len) {
+export async function categorize(text, len) {
   try {
     const FLASK_URL =
-      "https://qeazy-ai-api-production.up.railway.app/summarize"; // or your deployed URL
+      "https://qeazy-ai-api-production.up.railway.app/categories"; // or your deployed URL
 
     const response = await fetch(FLASK_URL, {
       method: "POST",
@@ -33,9 +33,9 @@ export async function summerizeAI(text, len) {
       throw new Error(`Flask server returned ${response.status}`);
     }
 
-    const data = await response.json();
+    const data = (await response.json())["categories"];
     // Expecting { summary: "..." } from Flask
-    return data.summary;
+    return data;
   } catch (err) {
     console.error("Error in summerizeAI:", err.message);
     return null;

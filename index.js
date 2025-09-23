@@ -56,13 +56,12 @@ app.post("/api/upload", upload.array("pdf"), async (req, res) => {
   //   questions,
   //   choices
   // );
-  const { mcq: ress, total: total } = await fl(
-    filePaths,
-    diff,
-    questions,
-    choices
-  );
+  const {
+    mcq: ress,
+    total: total,
+    categories: categories,
+  } = await fl(filePaths, diff, questions, choices);
   console.log("ress");
   console.log(ress);
-  res.json({ ress: ress, total: total });
+  res.json({ ress: ress, total: total, categories: categories });
 });
