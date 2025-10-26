@@ -14,8 +14,9 @@
     "@azure/core-auth": "^1.9.0",
     "@huggingface/hub": "^2.6.5",
     "@huggingface/inference": "^4.8.0",
-    "@langchain/community": "^0.3.55",
-    "bcrypt": "^5.1.1",
+    "@langchain/community": "0.3.57",
+    "@langchain/core": "0.3.78",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
@@ -23,14 +24,14 @@
     "express-rate-limit": "^7.5.0",
     "http": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
-    "langchain": "^0.3.33",
+    "langchain": "0.3.36",
     "multer": "^2.0.1",
     "nodemon": "^3.1.9",
-    "openai": "^5.23.0",
     "path": "^0.12.7",
     "pdf-parse": "^1.1.1",
     "pg": "^8.13.3",
     "socket-io": "^1.0.0",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "openai": "4.104.0"
   }
 }
