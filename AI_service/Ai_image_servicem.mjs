@@ -10,7 +10,7 @@ import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { summerizeAI } from "./Ai_summerization.mjs";
 import { categorize } from "./Ai_categorizing.mjs";
-
+import OpenAI from "openai";
 // Load environment variables
 const token = process.env["GITHUB_TOKEN"];
 const endpoint = "https://models.github.ai/inference";
