@@ -18,10 +18,8 @@ const model = "openai/gpt-4.1";
 
 export async function summerizeAI(text, len) {
   try {
-    const FLASK_URL =
-      "https://qeazy-ai-api-production.up.railway.app/summarize"; // or your deployed URL
-
-    const response = await fetch(FLASK_URL, {
+    console.log(process.env.AI_API + "/summarize");
+    const response = await fetch(process.env.AI_API + "/summarize", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

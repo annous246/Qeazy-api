@@ -18,10 +18,9 @@ const model = "openai/gpt-4.1";
 
 export async function categorize(text, len) {
   try {
-    const FLASK_URL =
-      "https://qeazy-ai-api-production.up.railway.app/categories"; // or your deployed URL
+    const FLASK_URL = process.env.AI_API; // or your deployed URL
 
-    const response = await fetch(FLASK_URL, {
+    const response = await fetch(FLASK_URL + "/categories", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
